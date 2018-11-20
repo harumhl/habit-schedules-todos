@@ -104,6 +104,7 @@ venv.bak/
 .mypy_cache/
 
 # Personal addition
+*/node_modules
 .DS_Store
 .firebase/
 .firebaserc
