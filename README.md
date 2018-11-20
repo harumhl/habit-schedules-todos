@@ -2,7 +2,7 @@
 
 Tools used
 * UI: React.js (Firebase)
-* Backend: Spring Boot (Firebase)
+* Backend: Spring Boot (Heroku)
 * Logic Server: Python (Heroku)
 * Database: Firebase
 
@@ -23,7 +23,7 @@ Current plan
 
 To Do (Nov/19/2018), especially with Spring Boot backend
 1. Set the spring boot to have controller/service/repo
-2. Host the spring boot backend to a server (Firebase?)
+2. Host the spring boot backend to a server (Heroku)
 3. Make the spring boot to gather data
 4. Make the spring boot to store the gathered data
 5. Make the spring boot to retrieve the data (to hand it off to the Logic server)
