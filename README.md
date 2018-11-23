@@ -38,6 +38,7 @@ move the build folder content to public
 
 Spring Boot
 ```
+$ export PATH=/Library/Maven/apache-maven-3.6.0/bin:$PATH
 $ mvn package
 ```
 
@@ -52,4 +53,7 @@ $ heroku open
 Firebase
 ```
 $firebase deploy
+HOW TO GET ID TOKEN: POST https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=[API_KEY], with body {"email": "EMAIL", "password": "PASSWORD", "returnSecureToken": true
+HOW TO GET DATA: GET https://firestore.googleapis.com/v1beta1/projects/PROJECT_ID/databases/(default)/documents/COLLECTION_NAME/DOCUMENT_NAME, with no body but header {AUTHORIZATION: "Bearer ID_TOKEN", Content-Type: application/json}
+}
 ```
