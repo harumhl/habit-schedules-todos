@@ -2,6 +2,8 @@ package org.haru.regressionOnStockMarket;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 public class RegressionOnStockMarketController {
@@ -12,8 +14,13 @@ public class RegressionOnStockMarketController {
         this.service = service;
     }
 
-    @RequestMapping("/")
-    public String index() {
-        return this.service.hi();
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String get() {
+        return this.service.get();
+    }
+    
+    @RequestMapping(value = "/hi", method = RequestMethod.POST)
+    public String add() {
+        return this.service.add();
     }
 }

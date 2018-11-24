@@ -12,6 +12,13 @@ import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.api.core.ApiFuture;
 import java.util.List;
+import com.google.cloud.firestore.DocumentReference;
+import java.util.Map;
+import java.util.HashMap;
+import com.google.cloud.firestore.WriteResult;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import java.util.Arrays;
 
 @Service
 public class RegressionOnStockMarketService {
@@ -37,25 +44,53 @@ public class RegressionOnStockMarketService {
         }
     }
     
-    public String hi() {
-        if (db == null) {
-            return "db null";
-        }
-        ApiFuture<QuerySnapshot> query = db.collection("temp").get();
+    public String get() {
         try {
+            GoogleCredential googleCred
+            = GoogleCredential.fromStream(new FileInputStream("src/main/resources/serviceAccountKey.json"));
+            GoogleCredential scoped
+            = googleCred.createScoped(Arrays.asList("https://www.googleapis.com/auth/firebase.database","https://www.googleapis.com/auth/userinfo.email"));
+            scoped.refreshToken();
+            String token = scoped.getAccessToken();
+            System.out.println(token);
+            System.out.println(scoped.getServiceAccountId());
+            System.out.println(scoped.getServiceAccountPrivateKey());
+            System.out.println(scoped.getServiceAccountPrivateKeyId());
+            System.out.println(scoped.getServiceAccountScopes());
+            System.out.println(scoped.getServiceAccountScopesAsString());
+            System.out.println(scoped.getServiceAccountUser());
+
+            ApiFuture<QuerySnapshot> query = db.collection("temp").get();
             QuerySnapshot querySnapshot = query.get();
             List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
             for (QueryDocumentSnapshot document : documents) {
-                String str = document.getString("temp1");
+                String str = document.getString("tempField");
                 System.out.println(str);
                 return str;
             }
         }
         catch (Exception e) {
-            System.out.println("Exception in RegressionOnStockMarketService hi()");
+            System.out.println("Exception in RegressionOnStockMarketService get()");
             System.out.println(e.getMessage());
             System.out.println(e);
         }
         return "hi";
+    }
+    
+    public String add() {
+        try {
+            Map<String, Object> data = new HashMap<>();
+            data.put("tempField", "123");
+            
+            DocumentReference docRef = db.collection("temp").document("tempDoc");
+            ApiFuture<WriteResult> result = docRef.set(data);
+            System.out.println(result.get().getUpdateTime());
+        }
+        catch (Exception e) {
+            System.out.println("Exception in RegressionOnStockMarketService add()");
+            System.out.println(e.getMessage());
+            System.out.println(e);
+        }
+        return "success";
     }
 }
