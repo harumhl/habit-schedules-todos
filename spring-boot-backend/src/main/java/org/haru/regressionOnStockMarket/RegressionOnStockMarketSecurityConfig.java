@@ -12,6 +12,7 @@ public class RegressionOnStockMarketSecurityConfig extends WebSecurityConfigurer
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
+        .cors().and().csrf().disable()
         .authorizeRequests()
             .antMatchers("/**").permitAll();
     }
