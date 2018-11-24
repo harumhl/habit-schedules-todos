@@ -77,12 +77,22 @@ public class RegressionOnStockMarketService {
         return "hi";
     }
     
-    public String add() {
+    public String add(StockInfo stock) {
         try {
             Map<String, Object> data = new HashMap<>();
-            data.put("tempField", "123");
+            data.put("nasdaqSymbol", stock.getNasdaqSymbol());
+            data.put("date", stock.getDate());
+            data.put("open", stock.getOpen());
+            data.put("high", stock.getHigh());
+            data.put("low", stock.getLow());
+            data.put("close", stock.getClose());
+            data.put("adjustedClose", stock.getAdjustedClose());
+            data.put("volume", stock.getVolume());
+            data.put("dividentAmount", stock.getDividentAmount());
+            data.put("splitCoefficient", stock.getSplitCoefficient());
             
-            DocumentReference docRef = db.collection("temp").document("tempDoc");
+            DocumentReference docRef = db.collection("temp")
+                .document(stock.getNasdaqSymbol() + stock.getDate());
             ApiFuture<WriteResult> result = docRef.set(data);
             System.out.println(result.get().getUpdateTime());
         }

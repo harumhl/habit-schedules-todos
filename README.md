@@ -57,4 +57,5 @@ HOW TO GET ID TOKEN: POST https://www.googleapis.com/identitytoolkit/v3/relyingp
 HOW TO GET DATA: GET https://firestore.googleapis.com/v1beta1/projects/PROJECT_ID/databases/(default)/documents/COLLECTION_NAME/DOCUMENT_NAME, with no body but header {AUTHORIZATION: "Bearer ID_TOKEN", Content-Type: application/json}
 HOW TO UPDATE DATA: PATCH https://firestore.googleapis.com/v1beta1/projects/PROJECT_ID/databases/(default)/documents/COLLECTION_NAME/DOCUMENT_NAME, with header {AUTHORIZATION: "Bearer ID_TOKEN", Content-Type: application/json} and body {"name": "projects/PROJECT_ID/databases/(default)/documents/COLLECTION_NAME/DOCUMENT_NAME", "fields": {"NEW_FIELD_NAME": {"stringValue": "VALUE"}}, "createdTime": "TIMESTAMP", "updatedTime": "TIMESTAMP"}
 HOW TO ADD DATA: POST https://firestore.googleapis.com/v1beta1/projects/PROJECT_ID/databases/(default)/documents/COLLECTION_NAME?documentId=NEW_DOCUMENT_NAME, with header {AUTHORIZATION: "Bearer ID_TOKEN", Content-Type: application/json} and body {"fields": {"NEW_FIELD_NAME": {"stringValue": "VALUE"}}}
+(datatype info: https://firebase.google.com/docs/firestore/reference/rest/v1beta1/Value)
 ```

@@ -19,8 +19,8 @@ public class RegressionOnStockMarketController {
         return this.service.get();
     }
     
-    @RequestMapping(value = "/hi", method = RequestMethod.POST)
-    public String add() {
-        return this.service.add();
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public String add(@RequestBody StockInfo stock) {
+        return this.service.add(stock);
     }
 }
