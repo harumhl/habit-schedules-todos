@@ -16,9 +16,14 @@ import com.google.cloud.firestore.DocumentReference;
 import java.util.Map;
 import java.util.HashMap;
 import com.google.cloud.firestore.WriteResult;
-
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseToken;
+import java.lang.InterruptedException;
+import java.util.concurrent.ExecutionException;
+import java.lang.Exception;
+import com.google.firebase.auth.FirebaseAuthException;
+import java.util.ArrayList;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import java.util.Arrays;
 
 @Service
 public class RegressionOnStockMarketService {
@@ -44,29 +49,26 @@ public class RegressionOnStockMarketService {
         }
     }
     
-    public String get() {
+    public String verifyUserIdToken(String idToken) throws Exception {
+        String userId = null;
         try {
-            GoogleCredential googleCred
-            = GoogleCredential.fromStream(new FileInputStream("src/main/resources/serviceAccountKey.json"));
-            GoogleCredential scoped
-            = googleCred.createScoped(Arrays.asList("https://www.googleapis.com/auth/firebase.database","https://www.googleapis.com/auth/userinfo.email"));
-            scoped.refreshToken();
-            String token = scoped.getAccessToken();
-            System.out.println(token);
-            System.out.println(scoped.getServiceAccountId());
-            System.out.println(scoped.getServiceAccountPrivateKey());
-            System.out.println(scoped.getServiceAccountPrivateKeyId());
-            System.out.println(scoped.getServiceAccountScopes());
-            System.out.println(scoped.getServiceAccountScopesAsString());
-            System.out.println(scoped.getServiceAccountUser());
-
+            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
+            userId = decodedToken.getUid();
+        }
+        catch (FirebaseAuthException e) {
+            throw new Exception("User Not Authenticated");
+        }
+        return userId;
+    }
+    
+    public List<StockInfo> get() {
+        List<StockInfo> stockInfos = new ArrayList<StockInfo>();
+        try {
             ApiFuture<QuerySnapshot> query = db.collection("temp").get();
             QuerySnapshot querySnapshot = query.get();
             List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
             for (QueryDocumentSnapshot document : documents) {
-                String str = document.getString("tempField");
-                System.out.println(str);
-                return str;
+                stockInfos.add(document.toObject(StockInfo.class));
             }
         }
         catch (Exception e) {
@@ -74,7 +76,7 @@ public class RegressionOnStockMarketService {
             System.out.println(e.getMessage());
             System.out.println(e);
         }
-        return "hi";
+        return stockInfos;
     }
     
     public String add(StockInfo stock) {
