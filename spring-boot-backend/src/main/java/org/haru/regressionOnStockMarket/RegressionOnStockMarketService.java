@@ -1,7 +1,7 @@
 package org.haru.regressionOnStockMarket;
 
 import org.springframework.stereotype.Service;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.FirebaseApp;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -24,6 +24,8 @@ import java.lang.Exception;
 import com.google.firebase.auth.FirebaseAuthException;
 import java.util.ArrayList;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class RegressionOnStockMarketService {
@@ -32,12 +34,11 @@ public class RegressionOnStockMarketService {
     
     RegressionOnStockMarketService() {
         try {
-            FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccountKey.json");
+            String serviceAccountStr = System.getenv().get("SERVICE_ACCOUNT_JSON");
+            InputStream serviceAccount = new ByteArrayInputStream(serviceAccountStr.getBytes(StandardCharsets.UTF_8));
             
             FirebaseOptions options = new FirebaseOptions.Builder()
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-            //.setProjectId("regression-on-stock-market")
-            //.setDatabaseUrl("https://regression-on-stock-market.firebaseio.com")
             .build();
             
             FirebaseApp.initializeApp(options);
