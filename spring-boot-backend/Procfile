@@ -1,2 +1,0 @@
-web: mvn install && java -jar target/regressionOnStockMarket-0.0.1-SNAPSHOT.jar
-
