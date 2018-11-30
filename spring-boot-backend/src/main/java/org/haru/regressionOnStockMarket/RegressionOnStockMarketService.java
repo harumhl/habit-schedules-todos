@@ -35,9 +35,9 @@ public class RegressionOnStockMarketService {
             FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccountKey.json");
             
             FirebaseOptions options = new FirebaseOptions.Builder()
-            //.setCredentials(GoogleCredentials.fromStream(serviceAccount))
-            .setProjectId("regression-on-stock-market")
-            .setDatabaseUrl("https://regression-on-stock-market.firebaseio.com")
+            .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+            //.setProjectId("regression-on-stock-market")
+            //.setDatabaseUrl("https://regression-on-stock-market.firebaseio.com")
             .build();
             
             FirebaseApp.initializeApp(options);
