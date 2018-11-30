@@ -32,10 +32,9 @@ public class RegressionOnStockMarketService {
     
     RegressionOnStockMarketService() {
         try {
-            FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccountKey.json");
-            
             FirebaseOptions options = new FirebaseOptions.Builder()
-            .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+            //.setCredentials(GoogleCredentials.fromStream(serviceAccount))
+            .setCredentials(GoogleCredentials.getApplicationDefault())
             .build();
             
             FirebaseApp.initializeApp(options);
