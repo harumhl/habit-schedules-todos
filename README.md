@@ -30,6 +30,7 @@ To Do (Nov/19/2018), especially with Spring Boot backend
 
 
 React-app
+* Using axios for http requests
 ```
 $ npm start
 $ npm run build
@@ -40,6 +41,8 @@ Spring Boot
 ```
 $ export PATH=/Library/Maven/apache-maven-3.6.0/bin:$PATH
 $ mvn package
+$ git subtree push --prefix spring-boot-backend regression-on-sm-backend master
+$ cd spring-boot-backend/ && mvn install && cd .. && git subtree push --prefix spring-boot-backend regression-on-sm-backend master
 ```
 
 Heroku (https://devcenter.heroku.com/articles/getting-started-with-python)
