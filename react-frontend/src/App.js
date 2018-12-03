@@ -2,63 +2,40 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios'
 import Graph from './Graph.js';
+import firebaseAuth from './FirebaseAuth.js';
 
 class App extends Component {
     
     constructor () {
-        super()
+        super();
         
-        // Firebase
         const firebase = require("firebase");
-        require("firebase/firestore");
-        /*
-        const functions = require("firebase-functions");
-        console.log(functions.config());
-        firebase.initializeApp({
-           apiKey: functions.config().regression-on-sm-frontend.apikey,
-           authDomain: functions.config().regression-on-sm-frontend.authdomain,
-           projectId: functions.config().regression-on-sm-frontend.projectid
-        });
-        // Initialize Cloud Firestore through Firebase
-        var db = firebase.firestore();
-        // Disable deprecated features
-        db.settings({timestampsInSnapshots: true});
-        
-        
-        db.collection("temp").get().then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            console.log(`${doc.id} => ${doc.data()}`);
-          });
-        });*/
+        firebaseAuth(firebase);
 
-        this.state = {
-            username: ''
-        }
-        this.handleClick = this.handleClick.bind(this)
+        var db = firebase.firestore();
+        db.settings({timestampsInSnapshots: true}); // Disable deprecated features
+        this.firebaseGet(db);
     }
     
-    firebaseAuth() {
-        
+    firebaseGet(db) {
+         db.collection("temp").get().then((querySnapshot) => {
+             console.log(querySnapshot.docs[0].data());
+             querySnapshot.forEach((doc) => {
+                 console.log(doc.id);
+                 console.log(doc.data());
+             });
+         });
     }
     
-    handleClick () {
+    /* handleClick () {
         axios.get('https://api.github.com/users/maecapozzi')
         .then(response => this.setState({username: response.data.name}))
-    }
-
+    } */
+    
     render() {
         return (
             <div>
-                <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-app.js"></script>
-                <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-firestore.js"></script>
                 <Graph />
-
-                <div className='button-container'>
-                    <button className='button' onClick={this.handleClick}>
-                        Click Me
-                    </button>
-                    <p>{this.state.username}</p>
-                </div>
             </div>
         );
     }

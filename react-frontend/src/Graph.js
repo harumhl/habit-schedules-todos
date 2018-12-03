@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 //import './App.css';
-import axios from 'axios'
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 
 class Graph extends Component {
