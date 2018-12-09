@@ -1,5 +1,7 @@
 import React from 'react';
 import {
+  AsyncStorage,
+  Button,
   Image,
   Platform,
   ScrollView,
@@ -43,8 +45,8 @@ export default class HomeScreen extends React.Component {
 
             <Text style={styles.getStartedText}>
               Change this text and your app will automatically reload.
-                Hey, whats up
             </Text>
+            <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
           </View>
 
           <View style={styles.helpContainer}>
@@ -64,6 +66,11 @@ export default class HomeScreen extends React.Component {
       </View>
     );
   }
+
+  _signOutAsync = async () => {
+  await AsyncStorage.clear();
+  this.props.navigation.navigate('Auth');
+};
 
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {
