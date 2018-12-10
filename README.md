@@ -37,6 +37,11 @@ $ npm run build
 move the build folder content to public
 ```
 
+React Native
+```
+$ lsof -i :19003
+```
+
 Spring Boot
 ```
 $ export PATH=/Library/Maven/apache-maven-3.6.0/bin:$PATH

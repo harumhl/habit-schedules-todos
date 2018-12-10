@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
+import firebase from "firebase";
 
 import { MonoText } from '../components/StyledText';
 
@@ -68,8 +69,13 @@ export default class HomeScreen extends React.Component {
   }
 
   _signOutAsync = async () => {
-  await AsyncStorage.clear();
-  this.props.navigation.navigate('Auth');
+    await firebase.auth().signOut().catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      alert(errorMessage);
+    });
+    await AsyncStorage.clear();
+    this.props.navigation.navigate('Auth');
 };
 
   _maybeRenderDevelopmentModeWarning() {
