@@ -16,6 +16,21 @@ import firebase from "firebase";
 import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      trackingItemArray: [{
+        number: 0,
+        name: 'name1',
+        overlayVisible: false
+      }, {
+        number: 1,
+        name: 'name2',
+        overlayVisible: false
+      }]
+    }
+  }
   static navigationOptions = {
     header: null,
   };
@@ -44,17 +59,12 @@ export default class HomeScreen extends React.Component {
               <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
             </View>
 
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
-            </Text>
             <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
+
+            {this.trackingItem()}
+            {this.overlay()}
           </View>
 
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-            </TouchableOpacity>
-          </View>
         </ScrollView>
 
         <View style={styles.tabBarInfoContainer}>
@@ -80,16 +90,10 @@ export default class HomeScreen extends React.Component {
 
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
-
       return (
         <Text style={styles.developmentModeText}>
           Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
+          tools.
         </Text>
       );
     } else {
@@ -101,15 +105,43 @@ export default class HomeScreen extends React.Component {
     }
   }
 
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-  };
+  displayAlert(name) {
+    alert(name);
+  }
 
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-    );
-  };
+  displayOverlay(item) {
+    let temp = this.state.trackingItemArray.slice();
+    temp[item.number].overlayVisible = !temp[item.number].overlayVisible;
+    this.setState({trackingItemArray: temp});
+  }
+
+  trackingItem() {
+    return this.state.trackingItemArray.map((item) => {
+      return (
+        <View key={item.name} style={styles.trackingItemView}>
+          <TouchableOpacity onPress={() => this.displayAlert(item.name)}>
+            <Text style={[styles.trackingItemGeneric, styles.tracikingItemLeft]}>Edit</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.displayOverlay(item)}>
+            <Text style={[styles.trackingItemGeneric, styles.tracikingItemRight]}>Count</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    })
+  }
+
+  overlay() {
+    return this.state.trackingItemArray.map((item) => {
+      return (
+        <View key={item.name} >
+          {item.overlayVisible ?
+            <Text style={[styles.trackingItemGeneric, styles.trackingItemOverlay]}>Enter number</Text>
+            : null }
+        </View>
+      );
+    })
+  }
+
 }
 
 const styles = StyleSheet.create({
@@ -188,15 +220,34 @@ const styles = StyleSheet.create({
   navigationFilename: {
     marginTop: 5,
   },
-  helpContainer: {
-    marginTop: 15,
+  trackingItemView: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'space-between'
+  },
+  trackingItemGeneric: {
+    flex: 1,
+    height: 50,
+    width: 100,
+    overflow: 'hidden',
+    backgroundColor: 'darkorchid',
+    color: 'white',
     alignItems: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    paddingTop: 16,
+    //borderRadius: 10,
+    margin: 7
   },
-  helpLink: {
-    paddingVertical: 15,
+  tracikingItemLeft: {
+    marginRight: 0,
+    width: 200,
+    backgroundColor: 'purple'
   },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
+  tracikingItemRight: {
+    marginLeft: 0
   },
+  trackingItemOverlay: {
+    height: 20
+  }
 });
