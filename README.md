@@ -40,6 +40,11 @@ move the build folder content to public
 React Native
 ```
 $ lsof -i :19003
+$
+$ react-native run-ios
+$ react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios (react native doesn't create main.jsbundle automatically)
+$ killall node (save 8081)
+
 ```
 
 Spring Boot
