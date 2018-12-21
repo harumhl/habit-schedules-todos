@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import firebase from "firebase";
 import '@firebase/firestore';
+import ListItem from './ListItem';
 
 let db = null;
 let data = [];
@@ -82,8 +83,11 @@ export default class HomeHomeScreen extends React.Component {
 
             <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
 
-            {this.trackingItem()}
-            {this.overlay()}
+            {this.state.tracker.map((item) => {
+              return (
+                <ListItem key={item.id} id={item.id} />
+              );
+            })}
           </View>
 
         </ScrollView>
@@ -248,47 +252,9 @@ export default class HomeHomeScreen extends React.Component {
     }
   }
 
-  displayAlert(name) {
-    alert(name);
-  }
-
-  displayOverlay(item) {
-    let temp = this.state.trackingItemArray.slice();
-    temp[item.number].overlayVisible = !temp[item.number].overlayVisible;
-    this.setState({trackingItemArray: temp});
-  }
-
   getToken = async() => {
     const userToken = await AsyncStorage.getItem('userToken');
   }
-
-  trackingItem() {
-    return this.state.tracker.map((item) => {
-      return (
-        <View key={item.id} style={styles.trackingItemView}>
-          <TouchableOpacity onPress={() => this.displayAlert(item.id)}>
-              <Text style={[styles.trackingItemGeneric, styles.tracikingItemLeft]}>{item.id}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.displayOverlay(item)}>
-            <Text style={[styles.trackingItemGeneric, styles.tracikingItemRight]}>Count</Text>
-          </TouchableOpacity>
-        </View>
-      );
-    })
-  }
-
-  overlay() {
-    return this.state.trackingItemArray.map((item) => {
-      return (
-        <View key={item.name} >
-          {item.overlayVisible ?
-            <Text style={[styles.trackingItemGeneric, styles.trackingItemOverlay]}>Enter number</Text>
-            : null }
-        </View>
-      );
-    })
-  }
-
 }
 
 const styles = StyleSheet.create({
