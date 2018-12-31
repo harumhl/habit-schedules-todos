@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   ActivityIndicator,
+  Alert,
   AsyncStorage,
   Button,
   HeaderBackButton,
@@ -77,6 +78,7 @@ export default class AddEditScreen extends React.Component {
         style={styles.input} />
 
         <Button title="Save" onPress={this.saveToFirebase} />
+        <Button title="Delete" onPress={() => this.deleteConfirmation()} />
       </View>
     );
   }
@@ -100,8 +102,30 @@ export default class AddEditScreen extends React.Component {
 
   }
     
+    deleteConfirmation() {
+        Alert.alert(
+                    'Delete Confirmation',
+                    'Are you sure you want to delete the item?',
+                    [
+                     {text: 'NO', onPress: () => console.warn('NO Pressed'), style: 'cancel'},
+                     {text: 'YES', onPress: () => {
+                                                console.warn('YES Pressed')
+                                                this.deleteFromFirebase()
+                     }},
+                     ]
+                    );
+
+    }
+    
     deleteFromFirebase() {
-        
+        db.collection("trackers").doc(this.state.id).delete()
+        .then(() => {
+              console.log("Document successfully deleted!");
+              this.props.navigation.navigate("App");
+        })
+        .catch(function(error) {
+               console.error("Error removing document: ", error);
+        });
     }
 }
 
