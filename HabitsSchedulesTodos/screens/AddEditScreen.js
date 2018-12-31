@@ -78,8 +78,8 @@ export default class AddEditScreen extends React.Component {
         style={styles.input} />
 
         <Button title="Save" onPress={this.saveToFirebase} />
-        {(this.props.navigation.getParam('addEdit') === "edit")?
-            <Button title="Delete" onPress={() => this.deleteConfirmation()} />:null
+        {(this.props.navigation.getParam('addEdit') === "edit") ?
+            <Button title="Delete" onPress={() => this.deleteConfirmation()} /> : null
         }
       </View>
     );
