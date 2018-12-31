@@ -55,27 +55,26 @@ export default class AddEditScreen extends React.Component {
       unit: this.props.navigation.getParam('unit', newItem.unit)
     };
   }
+    
+    displayItem(title, value, ph, setstate) {
+        return (
+            <View>
+                <Text>{title}: </Text>
+                <TextInput value={value} placeholder={ph} placeholderTextColor='black'
+                        onChangeText={setstate}
+                        style={styles.input} />
+            </View>
+        );
+    }
 
   render() {
     return (
       <View>
         <Button title="Home/Back" onPress={() => this.props.navigation.navigate("App")} />
-        <Text>Name: </Text>
-        <TextInput value={this.state.id} placeholder='ID' placeholderTextColor='black'
-            onChangeText={(text) => this.setState({id: text})}
-            style={styles.input} />
-        <Text>Color: </Text>
-        <TextInput value={this.state.color} placeholder='color' placeholderTextColor='black'
-        onChangeText={(text) => this.setState({color: text})}
-        style={styles.input} />
-        <Text>Icon: </Text>
-        <TextInput value={this.state.icon} placeholder='icon' placeholderTextColor='black'
-        onChangeText={(text) => this.setState({icon: text})}
-        style={styles.input} />
-        <Text>Unit: </Text>
-        <TextInput value={this.state.unit} placeholder='unit' placeholderTextColor='black'
-        onChangeText={(text) => this.setState({unit: text})}
-        style={styles.input} />
+        {this.displayItem("Name", this.state.id, "ID", (text) =>this.setState({id: text}))}
+        {this.displayItem("Color", this.state.color, "color", (text) => this.setState({color: text}))}
+        {this.displayItem("Icon", this.state.icon, "icon", (text) => this.setState({icon: text}))}
+        {this.displayItem("Unit", this.state.unit, "unit", (text) => this.setState({unit: text}))}
 
         <Button title="Save" onPress={this.saveToFirebase} />
         {(this.props.navigation.getParam('addEdit') === "edit") ?
