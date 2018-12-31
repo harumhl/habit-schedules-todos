@@ -17,20 +17,17 @@ export default class ListItem extends React.Component {
     super(props);
   }
     
-  displayAlert(name) {
-    alert(name);
-  }
-
   displayOverlay(item) {
-    let temp = this.state.trackingItemArray.slice();
-    temp[item.number].overlayVisible = !temp[item.number].overlayVisible;
-    this.setState({trackingItemArray: temp});
+    //let temp = this.state.trackingItemArray.slice();
+    //temp[item.number].overlayVisible = !temp[item.number].overlayVisible;
+    //this.setState({trackingItemArray: temp});
+      alert(item);
   }
 
   render() {
     return (
       <View key={this.props.id} style={styles.trackingItemView}>
-        <TouchableOpacity onPress={() => this.displayAlert(this.props.id)}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('AddEdit', this.props)}>
           <Text style={[styles.trackingItemGeneric, styles.tracikingItemLeft]}>{this.props.id}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => this.displayOverlay(this.props.id)}>

@@ -45,7 +45,6 @@ export default class HomeHomeScreen extends React.Component {
 
     this.getToken();
     this.firebaseGetAll();
-    //console.log(this.state);
   }
     
     checkThisState() {
@@ -75,7 +74,7 @@ export default class HomeHomeScreen extends React.Component {
               }
               style={styles.welcomeImage}
             />
-            <Button title="Check 'this.state'" onPress={this.checkThisState} />
+            <Button title="Add New" onPress={() => this.props.navigation.navigate('AddEdit', {addEdit: "add"})} />
           </View>
 
           <View style={styles.getStartedContainer}>
@@ -85,7 +84,8 @@ export default class HomeHomeScreen extends React.Component {
 
             {this.state.tracker.map((item) => {
               return (
-                <ListItem key={item.id} id={item.id} />
+                <ListItem key={item.id} addEdit="edit"
+                      id={item.id} archived={item.archived} color={item.color} createdDate={item.createdDate} icon={item.icon} unit={item.unit} navigation={this.props.navigation} />
               );
             })}
           </View>
@@ -239,14 +239,13 @@ export default class HomeHomeScreen extends React.Component {
     if (__DEV__) {
       return (
         <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools.
+          DEV
         </Text>
       );
     } else {
       return (
         <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
+          PROD
         </Text>
       );
     }

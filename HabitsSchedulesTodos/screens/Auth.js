@@ -95,8 +95,8 @@ export class SignInScreen extends React.Component {
     render() {
       return (
         <View style={styles.container}>
-          <TextInput value={this.state.givenId} placeholder='ID'placeholderTextColor='black'
-                     onChangeText={(text) => this.setState({givenId: text})}
+          <TextInput value={this.state.givenId} placeholder='ID (no space)' placeholderTextColor='black'
+                     onChangeText={(text) => this.setState({givenId: text.trim()})}
                      style={styles.input} />
           <TextInput value={this.state.givenPassword} placeholder='Password' placeholderTextColor='black'
                      onChangeText={(text) => this.setState({givenPassword: text})}
